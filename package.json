@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "create": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "repopulate": "npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize db:seed:all",
     "dev": "nodemon ./server.js",
     "drop": "npx sequelize-cli db:drop"
   },
