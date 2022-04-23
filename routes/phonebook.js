@@ -10,11 +10,11 @@ router.get(
 );
 router.get(
   "/getSubscriberName",
-  validation.validatePhoneFormatInQuery,
+  validation.validatePhoneFormat,
   phonebookController.getSubscriberByPhonenumber
 );
 router.get(
-  "/getPhoneNumbersBelongToSubsriber",
+  "/getPhonenumbersBelongToSubsriber",
   phonebookController.getPhonenumbersBelongToSubscriber
 );
 

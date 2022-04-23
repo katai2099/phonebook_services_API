@@ -1,6 +1,6 @@
 const db = require("../models");
 
-const PhoneNumber = db.phonenumber;
+const Phonenumber = db.phonenumber;
 const Phonebook = db.phonebook;
 const Subscriber = db.subscriber;
 const Op = db.Op;
@@ -23,7 +23,7 @@ async function getAllRecords(req) {
         "subscriberId",
         "createdAt",
         "updatedAt",
-        "phoneNumberId",
+        "phonenumberId",
       ],
     },
     include: [
@@ -34,7 +34,7 @@ async function getAllRecords(req) {
         },
       },
       {
-        model: PhoneNumber,
+        model: Phonenumber,
         attributes: {
           exclude: ["id", "createdAt", "updatedAt"],
         },
@@ -55,7 +55,7 @@ async function getSubscriberByPhonenumber(phonenumberId) {
         "subscriberId",
         "createdAt",
         "updatedAt",
-        "phoneNumberId",
+        "phonenumberId",
       ],
     },
     include: [
@@ -81,12 +81,12 @@ async function getPhonenumbersBelongToSubscriber(subscriberId) {
         "subscriberId",
         "createdAt",
         "updatedAt",
-        "phoneNumberId",
+        "phonenumberId",
       ],
     },
     include: [
       {
-        model: PhoneNumber,
+        model: Phonenumber,
         attributes: {
           exclude: ["id", "createdAt", "updatedAt"],
         },
@@ -117,6 +117,12 @@ async function deletePhonebook(subscriberId, phonenumberId) {
     },
   });
 
+  const removePhonebook = await Phonebook.destroy({
+    where: {
+      phonenumberId: phonenumberId,
+    },
+  });
+
   //remove phonenumber record
 
   const removePhonenumber = deletePhonenumber(phonenumberId);
@@ -127,11 +133,11 @@ async function deletePhonebook(subscriberId, phonenumberId) {
 
   //remove phonebook record
 
-  const removePhonebook = await Phonebook.destroy({
-    where: {
-      phonenumberId: phonenumberId,
-    },
-  });
+  // const removePhonebook = await Phonebook.destroy({
+  //   where: {
+  //     phonenumberId: phonenumberId,
+  //   },
+  // });
 
   return removePhonebook;
 }
@@ -162,22 +168,22 @@ async function deleteSubscriber(subscriberId) {
 
 // phonenumber
 
-async function createNewPhoneNumber(req) {
-  return await PhoneNumber.create({
-    phoneNumber: req.body.phonenumber,
+async function createNewPhonenumber(req) {
+  return await Phonenumber.create({
+    phonenumber: req.body.phonenumber,
   });
 }
 
-async function getPhoneNumber(phonenumber) {
-  return await PhoneNumber.findOne({
+async function getPhonenumber(phonenumber) {
+  return await Phonenumber.findOne({
     where: {
-      phoneNumber: phonenumber,
+      phonenumber: phonenumber,
     },
   });
 }
 
 async function deletePhonenumber(phonenumberId) {
-  return await PhoneNumber.destroy({
+  return await Phonenumber.destroy({
     where: {
       id: phonenumberId,
     },
@@ -185,8 +191,8 @@ async function deletePhonenumber(phonenumberId) {
 }
 
 module.exports = {
-  createNewPhoneNumber,
-  getPhoneNumber,
+  createNewPhonenumber,
+  getPhonenumber,
   createNewSubscriber,
   getSubscriberByName,
   createNewPhonebookRecord,

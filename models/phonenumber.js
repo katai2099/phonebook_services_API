@@ -1,7 +1,7 @@
 const { sequelize, Sequelize } = require("./index");
 module.exports = (sequelize, Sequelize) => {
-  const PhoneNumber = sequelize.define(
-    "phone_number",
+  const Phonenumber = sequelize.define(
+    "phonenumbers",
     {
       id: {
         allowNull: false,
@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      phoneNumber: {
+      phonenumber: {
         type: Sequelize.STRING,
         unique: true,
       },
@@ -23,8 +23,8 @@ module.exports = (sequelize, Sequelize) => {
       },
     },
     {
-      tableName: "phone_numbers",
+      tableName: "phonenumbers",
     }
   );
-  return PhoneNumber;
+  return Phonenumber;
 };

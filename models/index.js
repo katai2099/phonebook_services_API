@@ -35,7 +35,7 @@ const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.phonebook = require("./phonebook")(sequelize, Sequelize);
-db.phonenumber = require("./phone_number")(sequelize, Sequelize);
+db.phonenumber = require("./phonenumber")(sequelize, Sequelize);
 db.subscriber = require("./subscriber")(sequelize, Sequelize);
 db.Op = Sequelize.Op;
 

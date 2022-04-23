@@ -10,14 +10,6 @@ validatePhoneFormat = async (req, res, next) => {
   next();
 };
 
-validatePhoneFormatInQuery = async (req, res, next) => {
-  if (!req.query.phonenumber.match(hungarianPhonenumberRegex)) {
-    return res.status(400).send({ message: "Invalid Phonenumber" });
-  }
-  next();
-};
-
 module.exports = {
   validatePhoneFormat,
-  validatePhoneFormatInQuery,
 };

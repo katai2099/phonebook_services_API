@@ -3,17 +3,17 @@ const db = require("../service/dbService");
 
 newPhonebook = async (req, res) => {
   try {
-    //check if phoneNumber already existed
-    const phonenumber = await db.getPhoneNumber(req.body.phonenumber);
+    //check if phonenumber already existed
+    const phonenumber = await db.getPhonenumber(req.body.phonenumber);
     if (phonenumber) {
       return res.status(400).send({ message: "Phonenumber already existed" });
     }
 
-    //add phoneNumber to phonenumber table
-    const newPhoneNumber = await db.createNewPhoneNumber(req);
-    const phoneNumberId = newPhoneNumber.id;
+    //add phonenumber to phonenumber table
+    const newPhonenumber = await db.createNewPhonenumber(req);
+    const phonenumberId = newPhonenumber.id;
 
-    //(check if already exist user otherwise we just add phonenumber)
+    //if exist user we just add phonenumber to phonebook
     let subscriberId = -1;
     const subscriber = await db.getSubscriberByName(req.body.subscriber);
     if (subscriber == null) {
@@ -23,9 +23,9 @@ newPhonebook = async (req, res) => {
     } else {
       subscriberId = subscriber.id;
     }
-    //add both phoneNumber and subscriber to phonebook table
+    //add both phonenumber and subscriber to phonebook table
     const phonebook = await db.createNewPhonebookRecord(
-      phoneNumberId,
+      phonenumberId,
       subscriberId
     );
     if (phonebook) {
@@ -54,7 +54,7 @@ getAllPhonebookRecords = async (req, res) => {
 getSubscriberByPhonenumber = async (req, res) => {
   // check if phonenumber exist
   try {
-    const phonenumber = await db.getPhoneNumber(req.query.phonenumber);
+    const phonenumber = await db.getPhonenumber(req.body.phonenumber);
     if (phonenumber) {
       const record = await db.getSubscriberByPhonenumber(phonenumber.id);
       return res.json(record);
@@ -84,7 +84,7 @@ getPhonenumbersBelongToSubscriber = async (req, res) => {
 deletePhonebook = async (req, res) => {
   try {
     //check if phonenumber exist
-    const phonenumber = await db.getPhoneNumber(req.body.phonenumber);
+    const phonenumber = await db.getPhonenumber(req.body.phonenumber);
     if (phonenumber == null) {
       return res.status(400).send({ message: "No such phonenumber" });
     }
