@@ -1,0 +1,102 @@
+You can find the instruction on how to setup the project and populate the database in README.md
+
+1. GET getAllPhonebookRecord - {{url}}/phonebook/getAllPhonebookRecord
+    - when list is empty : expected -> 
+            [] 
+    - when list is not empty expected -> 
+            [
+            {
+                "subscriber": {
+                    "name": "james"
+                },
+                "phonenumber": {
+                    "phonenumber": "+36123456788"
+                }
+            },
+            {
+                "subscriber": {
+                    "name": "john"
+                },
+                "phonenumber": {
+                    "phonenumber": "+36123456789"
+                }
+            }
+            ]
+
+2. GET getSubscriberName - {{url}}/phonebook/getSubscriberName  
+    - when input is valid : 
+    input = {
+                "phonenumber" : "+36123456788"
+             }
+    expected -> 200
+            {
+                "subscriber": {
+                    "name": "james"
+                }
+            }
+    - when input is invalid : expected -> 404
+            {
+                "message": "No subscriber associated with the phonenumber"
+            }
+
+3. GET getPhoneNumbersBelongToSubsriber - {{url}}/phonebook/getPhoneNumbersBelongToSubsriber?subscriber=frank
+    - when query string is valid : expected -> 200
+            [
+                {
+                    "phonenumber": {
+                        "phonenumber": "+36123456788"
+                    }
+                },
+                {
+                    "phonenumber": {
+                        "phonenumber": "+36123456790"
+                    }
+                }
+            ]
+    - when query string is invalid : expected -> 404
+            {
+                "message": "Subscriber not found"
+            }
+
+4. POST newPhonebook - {{url}}/phonebook/newPhonebook
+    - when input is valid :
+    input = {
+                "phonenumber" : "+36123456790",
+                "subscriber" : "james" 
+            }
+    expected -> 200 
+            {
+                "message": "Successfully add new phonebook"
+            }
+    - when there is a duplicate phonenumber : expected -> 400
+            {
+                "message": "Phonenumber already existed"
+            }
+    - when sending invalid phonenumber format : expected -> 400 
+            {
+                "message": "Invalid Phonenumber"
+            }
+    
+5. POST deletePhonebook - {{url}}/phonebook/deletePhonebook
+    - when input is valid :
+    input = {
+                "phonenumber" : "+36123456790",
+                "subscriber" : "james" 
+            }
+    expected -> 200
+            {
+                "message": "Successfully removed"
+            }
+    - when phonenumber does not exist : expected -> 400
+            {
+                "message": "No such phonenumber"
+            }
+    - when subscriber does not exist : expected -> 400
+            {
+                "message": "Subscriber not found"
+            }
+    - when pair is not a valid pair : expected -> 400
+            {
+                "message": "There is no phonenumber associated with the subscriber"
+            }
+                

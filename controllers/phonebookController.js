@@ -31,7 +31,7 @@ newPhonebook = async (req, res) => {
     if (phonebook) {
       return res
         .status(200)
-        .send({ message: "Successfully add new phonebook " });
+        .send({ message: "Successfully add new phonebook" });
     }
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -59,7 +59,9 @@ getSubscriberByPhonenumber = async (req, res) => {
       const record = await db.getSubscriberByPhonenumber(phonenumber.id);
       return res.json(record);
     } else {
-      res.status(400).send({ message: "No such record" });
+      return res
+        .status(404)
+        .send({ message: "No subscriber associated with the phonenumber" });
     }
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -74,7 +76,7 @@ getPhonenumbersBelongToSubscriber = async (req, res) => {
       const records = await db.getPhonenumbersBelongToSubscriber(subscriber.id);
       return res.json(records);
     } else {
-      res.status(400).send({ message: "No such record" });
+      return res.status(404).send({ message: "Subscriber not found" });
     }
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -91,7 +93,7 @@ deletePhonebook = async (req, res) => {
     //check if subscriber exist
     const subscriber = await db.getSubscriberByName(req.body.subscriber);
     if (subscriber == null) {
-      return res.status(400).send({ message: "No such subscriber" });
+      return res.status(400).send({ message: "Subscriber not found" });
     }
 
     //check if pair exist in phonebook

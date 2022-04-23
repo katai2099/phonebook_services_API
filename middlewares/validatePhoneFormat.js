@@ -3,8 +3,8 @@ const { HUNGARIAN_PHONE_FORMAT } = require("../constants");
 const hungarianPhonenumberRegex = HUNGARIAN_PHONE_FORMAT;
 
 validatePhoneFormat = async (req, res, next) => {
-  // const regex = /((?:\+?3|0)6)(?:-|\()?(\d{1,2})(?:-|\))?(\d{3})-?(\d{3,4})/;
-  if (!req.body.phonenumber.match(hungarianPhonenumberRegex)) {
+  let matched = req.body.phonenumber.match(hungarianPhonenumberRegex);
+  if (!matched || matched[0].length !== req.body.phonenumber.length) {
     return res.status(400).send({ message: "Invalid Phonenumber" });
   }
   next();
